@@ -1,0 +1,151 @@
+{
+  "name": "db-metadata-extractor-mcp",
+  "version": "0.1.0",
+  "description": "Database schema metadata extraction MCP server - extracts tables, columns, keys, and indexes from PostgreSQL, Snowflake, SQL Server, BigQuery, and Oracle databases.",
+  "author": {
+    "name": "Karpagavalli",
+    "email": "your-email@example.com"
+  },
+  "license": "MIT",
+  "homepage": "https://github.com/yourusername/db-metadata-extractor-mcp",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yourusername/db-metadata-extractor-mcp.git"
+  },
+  "keywords": [
+    "database",
+    "metadata",
+    "schema",
+    "extraction",
+    "postgresql",
+    "snowflake",
+    "bigquery",
+    "oracle",
+    "mcp"
+  ],
+  "tools": [
+    {
+      "name": "extract_metadata",
+      "description": "Extract complete schema metadata from a live database and save to local folder. Supports PostgreSQL, Snowflake, SQL Server, BigQuery, and Oracle.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "db_type": {
+            "type": "string",
+            "description": "Database type: postgresql, snowflake, sqlserver, bigquery, or oracle"
+          },
+          "output_path": {
+            "type": "string",
+            "description": "Local folder path where JSON output will be saved"
+          },
+          "database_name": {
+            "type": "string",
+            "description": "Database or schema name"
+          },
+          "host": {
+            "type": "string",
+            "description": "Database host (not needed for BigQuery/Snowflake)"
+          },
+          "port": {
+            "type": "integer",
+            "description": "Database port number"
+          },
+          "username": {
+            "type": "string",
+            "description": "Database username"
+          },
+          "password": {
+            "type": "string",
+            "description": "Database password"
+          },
+          "schema_name": {
+            "type": "string",
+            "description": "Specific schema to extract (optional)"
+          },
+          "tables": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Specific tables to extract (optional, array)"
+          },
+          "account": {
+            "type": "string",
+            "description": "Snowflake account identifier"
+          },
+          "warehouse": {
+            "type": "string",
+            "description": "Snowflake warehouse name"
+          },
+          "role_name": {
+            "type": "string",
+            "description": "Snowflake role name"
+          },
+          "project_id": {
+            "type": "string",
+            "description": "BigQuery project ID"
+          },
+          "service_account_key": {
+            "type": "string",
+            "description": "BigQuery service account JSON key (base64 encoded)"
+          }
+        },
+        "required": [
+          "db_type",
+          "output_path"
+        ]
+      }
+    },
+    {
+      "name": "query_metadata",
+      "description": "Query previously extracted metadata files. Filter by table name, field name, and paginate results.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "filepath": {
+            "type": "string",
+            "description": "Path to metadata JSON file (from extract_metadata output)"
+          },
+          "table_name": {
+            "type": "string",
+            "description": "Filter by table name (case-insensitive substring match)"
+          },
+          "field_name": {
+            "type": "string",
+            "description": "Filter by column/field name (case-insensitive substring match)"
+          },
+          "page": {
+            "type": "integer",
+            "description": "Page number (default 1)"
+          },
+          "page_size": {
+            "type": "integer",
+            "description": "Records per page (default 20)"
+          }
+        },
+        "required": [
+          "filepath"
+        ]
+      }
+    }
+  ],
+  "requirements": {
+    "python": ">=3.8",
+    "packages": [
+      "mcp",
+      "starlette",
+      "uvicorn",
+      "fastapi>=0.134.0",
+      "pydantic>=2.11.7",
+      "python-dotenv",
+      "psycopg2-binary",
+      "snowflake-connector-python",
+      "pyodbc",
+      "pymssql",
+      "cryptography",
+      "google-cloud-bigquery",
+      "oracledb",
+      "requests"
+    ]
+  }
+}

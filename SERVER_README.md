@@ -1,0 +1,293 @@
+# Database Metadata Extractor MCP Server
+
+A Model Context Protocol (MCP) server that extracts and queries database schema metadata from PostgreSQL, Snowflake, SQL Server, BigQuery, and Oracle databases.
+
+## Features
+
+- ✅ **Multi-database support**: PostgreSQL, Snowflake, SQL Server (MSSQL), BigQuery, Oracle
+- ✅ **Complete schema extraction**: Tables, columns, primary keys, indexes, constraints
+- ✅ **Local JSON output**: Saves metadata directly to local folder (no cloud required)
+- ✅ **Query interface**: Search and filter metadata by table/column names
+- ✅ **Pagination support**: Browse large schemas efficiently
+- ✅ **VS Code integration**: Works with VS Code Agent Mode
+- ✅ **CLI customizable**: Transport options (stdio, HTTP)
+
+## Installation
+
+### From PyPI
+
+```bash
+pip install db-metadata-extractor-mcp
+```
+
+### From Source
+
+```bash
+git clone https://github.com/yourusername/db-metadata-extractor-mcp.git
+cd db-metadata-extractor-mcp
+pip install -e .
+```
+
+## Quick Start
+
+### 1. Start the MCP Server
+
+```bash
+db-metadata-extractor-mcp
+```
+
+The server starts in stdio mode by default and listens for MCP client connections.
+
+### 2. Configure in Claude Desktop
+
+Add to `~/.config/Claude/claude_desktop_config.json` (macOS/Linux) or `%APPDATA%\Claude\claude_desktop_config.json` (Windows):
+
+```json
+{
+  "mcpServers": {
+    "db-metadata-extractor": {
+      "command": "db-metadata-extractor-mcp",
+      "args": [],
+      "env": {}
+    }
+  }
+}
+```
+
+Restart Claude Desktop.
+
+### 3. Use in Claude
+
+Tell Claude:
+> Extract metadata from my PostgreSQL database and save it to `/tmp/output`
+
+Claude will use the server's tools to extract and query your database schema.
+
+## Tools
+
+### `extract_metadata`
+
+Extracts complete schema metadata from a database.
+
+**Parameters:**
+- `db_type` (required): `postgresql`, `snowflake`, `sqlserver`, `bigquery`, `oracle`
+- `output_path` (required): Local directory for JSON output
+- `database_name`: Database/schema name
+- `host`: Database host (not needed for BigQuery/Snowflake)
+- `port`: Database port
+- `username`: Database user
+- `password`: Database password
+- `schema_name`: Specific schema (optional)
+- `tables`: Array of table names to extract (optional)
+- `account`: Snowflake account ID
+- `warehouse`: Snowflake warehouse
+- `role_name`: Snowflake role
+- `project_id`: BigQuery project ID
+- `service_account_key`: BigQuery service account JSON (base64 encoded)
+
+**Returns:**
+- File path where metadata was saved
+- Summary statistics (table count, column count, etc.)
+
+### `query_metadata`
+
+Query previously extracted metadata.
+
+**Parameters:**
+- `filepath` (required): Path to metadata JSON file
+- `table_name`: Filter by table name (substring match)
+- `field_name`: Filter by column name (substring match)
+- `page`: Page number (default: 1)
+- `page_size`: Results per page (default: 20)
+
+**Returns:**
+- Paginated table results matching filters
+
+## Examples
+
+### PostgreSQL
+
+```bash
+# Via Claude
+"Extract all tables from my dev PostgreSQL database at localhost:5432"
+```
+
+**Parameters Claude will use:**
+```json
+{
+  "db_type": "postgresql",
+  "host": "localhost",
+  "port": 5432,
+  "database_name": "dev_db",
+  "username": "postgres",
+  "password": "your_password",
+  "output_path": "/tmp/db_metadata"
+}
+```
+
+### Snowflake
+
+```bash
+"Extract schema from Snowflake account XYZ123"
+```
+
+**Parameters:**
+```json
+{
+  "db_type": "snowflake",
+  "account": "XYZ123",
+  "username": "your_user",
+  "password": "your_password",
+  "warehouse": "COMPUTE_WH",
+  "role_name": "ANALYST",
+  "database_name": "PRODUCTION",
+  "output_path": "C:/metadata"
+}
+```
+
+### BigQuery
+
+```bash
+"Extract metadata from BigQuery project my-project-123"
+```
+
+**Parameters:**
+```json
+{
+  "db_type": "bigquery",
+  "project_id": "my-project-123",
+  "service_account_key": "base64_encoded_json_key",
+  "output_path": "/tmp/bq_metadata"
+}
+```
+
+## Advanced Usage
+
+### Custom Transport
+
+Start with HTTP transport:
+
+```bash
+db-metadata-extractor-mcp --transport streamable-http --port 3000
+```
+
+### Environment Variables
+
+```bash
+# Set database credentials via env
+export DB_HOST=localhost
+export DB_USER=postgres
+export DB_PASSWORD=secret
+
+db-metadata-extractor-mcp
+```
+
+## Output Format
+
+The extracted metadata is saved as a JSON file with structure:
+
+```json
+{
+  "source": {
+    "db_type": "postgresql",
+    "extracted_at": "2026-04-09T14:30:00",
+    "host": "localhost"
+  },
+  "schemas": [
+    {
+      "schema_name": "public",
+      "tables": [
+        {
+          "table_name": "users",
+          "columns": [
+            {
+              "column_name": "id",
+              "data_type": "int",
+              "is_nullable": false,
+              "is_primary_key": true
+            },
+            {
+              "column_name": "email",
+              "data_type": "varchar",
+              "is_nullable": false
+            }
+          ],
+          "indexes": [
+            {
+              "index_name": "users_email_idx",
+              "columns": ["email"]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
+```
+
+## Requirements
+
+- Python 3.8+
+- For PostgreSQL: `psycopg2-binary`
+- For Snowflake: `snowflake-connector-python`
+- For SQL Server: `pyodbc`, `pymssql`
+- For BigQuery: `google-cloud-bigquery`
+- For Oracle: `oracledb`
+
+## Troubleshooting
+
+### Connection Errors
+
+**Problem**: "Unable to connect to database"
+
+**Solution**: Verify credentials and network access:
+```bash
+# Test PostgreSQL connection
+psql -h localhost -U postgres -c "SELECT 1"
+
+# Test Snowflake
+snowsql -a XYZ123 -u your_user
+```
+
+### Permission Errors
+
+**Problem**: "Access denied" or "insufficient permissions"
+
+**Solution**: Ensure database user has:
+- `SELECT` on tables
+- `USAGE` on schemas
+- `CONNECT` on databases
+
+### Large Schema Timeouts
+
+**Problem**: Extraction times out on large databases
+
+**Solution**: Extract specific schema/tables:
+```json
+{
+  "schema_name": "public",
+  "tables": ["users", "orders"]  // Specify subset
+}
+```
+
+## License
+
+MIT License - See LICENSE file
+
+## Contributing
+
+Contributions welcome! Please:
+1. Fork the repository
+2. Create feature branch
+3. Submit pull request
+
+## Support
+
+- GitHub Issues: https://github.com/yourusername/db-metadata-extractor-mcp/issues
+- Documentation: See MCP_REGISTRY_GUIDE.md
+
+## Links
+
+- **PyPI**: https://pypi.org/project/db-metadata-extractor-mcp/
+- **GitHub**: https://github.com/yourusername/db-metadata-extractor-mcp
+- **MCP Spec**: https://modelcontextprotocol.io/
