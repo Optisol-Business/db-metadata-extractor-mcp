@@ -1,4 +1,4 @@
-<!-- mcp-name: io.github.optisol-business/db-metadata-extractor-mcp -->
+<!-- mcp-name: io.github.Optisol-Business/db-metadata-extractor-mcp -->
 
 # db-metadata-extractor-mcp
 

@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "db-metadata-extractor-mcp"
-version = "0.1.1"
+version = "0.1.2"
 description = "A Python MCP stdio server for database metadata extraction."
 readme = "README.md"
 requires-python = ">=3.8"

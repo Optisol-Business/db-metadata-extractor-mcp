@@ -1,6 +1,6 @@
 Metadata-Version: 2.4
 Name: db-metadata-extractor-mcp
-Version: 0.1.1
+Version: 0.1.2
 Summary: A Python MCP stdio server for database metadata extraction.
 Author-email: Karpagavalli <Karpagavalli.kameshwara.elango@optisolbusiness.com>
 License-Expression: MIT
@@ -40,7 +40,7 @@ Requires-Dist: flake8>=4.0; extra == "dev"
 Requires-Dist: mypy>=0.900; extra == "dev"
 Dynamic: license-file
 
-<!-- mcp-name: io.github.optisol-business/db-metadata-extractor-mcp -->
+<!-- mcp-name: io.github.Optisol-Business/db-metadata-extractor-mcp -->
 
 # db-metadata-extractor-mcp
 
