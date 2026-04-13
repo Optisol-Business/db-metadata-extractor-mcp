@@ -39,9 +39,9 @@ dependencies = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/yourusername/db-metadata-extractor-mcp"
-Repository = "https://github.com/yourusername/db-metadata-extractor-mcp"
-Issues = "https://github.com/yourusername/db-metadata-extractor-mcp/issues"
+Homepage = "https://github.com/Optisol-Business/db-metadata-extractor-mcp"
+Repository = "https://github.com/Optisol-Business/db-metadata-extractor-mcp"
+Issues = "https://github.com/Optisol-Business/db-metadata-extractor-mcp/issues"
 
 [project.scripts]
 db-metadata-extractor-mcp = "db_metadata_extractor.server:main"
