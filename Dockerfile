@@ -33,6 +33,7 @@ FROM python:3.11-slim
 LABEL maintainer="Karpagavalli - Optisol Business Solutions"
 LABEL description="MCP Server for database schema metadata extraction"
 LABEL version="0.1.2"
+LABEL io.modelcontextprotocol.server.name="io.github.Optisol-Business/db-metadata-extractor-mcp"
 
 # Install only runtime dependencies (no build tools)
 # - unixodbc: Runtime library for pyodbc
