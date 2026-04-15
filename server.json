@@ -10,9 +10,18 @@
   "version": "0.1.2",
   "packages": [
     {
-      "registry_type": "pypi",
-      "registry_base_url": "https://pypi.org",
+      "registryType": "pypi",
+      "registryBaseUrl": "https://pypi.org",
       "identifier": "db-metadata-extractor-mcp",
+      "version": "0.1.2",
+      "transport": {
+        "type": "stdio"
+      }
+    },
+    {
+      "registryType": "oci",
+      "registryBaseUrl": "https://docker.io",
+      "identifier": "optisolbusiness/db-metadata-extractor-mcp",
       "version": "0.1.2",
       "transport": {
         "type": "stdio"
