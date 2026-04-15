@@ -20,9 +20,7 @@
     },
     {
       "registryType": "oci",
-      "registryBaseUrl": "https://docker.io",
-      "identifier": "optisolbusinesssol/db-metadata-extractor-mcp",
-      "version": "0.1.2",
+      "identifier": "docker.io/optisolbusinesssol/db-metadata-extractor-mcp:0.1.2",
       "transport": {
         "type": "stdio"
       }
