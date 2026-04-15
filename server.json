@@ -21,7 +21,7 @@
     {
       "registryType": "oci",
       "registryBaseUrl": "https://docker.io",
-      "identifier": "kavalli/db-metadata-extractor-mcp",
+      "identifier": "optisolbusinesssol/db-metadata-extractor-mcp",
       "version": "0.1.2",
       "transport": {
         "type": "stdio"
