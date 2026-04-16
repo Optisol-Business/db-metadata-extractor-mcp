@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "db-metadata-extractor-mcp"
-version = "0.1.2"
+version = "0.1.5"
 description = "A Python MCP stdio server for database metadata extraction."
 readme = "README.md"
 requires-python = ">=3.8"
@@ -44,16 +44,16 @@ Repository = "https://github.com/Optisol-Business/db-metadata-extractor-mcp"
 Issues = "https://github.com/Optisol-Business/db-metadata-extractor-mcp/issues"
 
 [project.scripts]
-db-metadata-extractor-mcp = "db_metadata_extractor.server:main"
+db-metadata-extractor-mcp = "db_metadata_extractor_mcp.server:main"
 
 [project.optional-dependencies]
 dev = ["pytest>=7.0", "black>=22.0", "flake8>=4.0", "mypy>=0.900"]
 
 [tool.setuptools]
-packages = ["db_metadata_extractor"]
+packages = ["db_metadata_extractor_mcp"]
 
 [tool.setuptools.package-dir]
 "" = "src"
 
 [tool.setuptools.package-data]
-db_metadata_extractor = ["*.py", "reference/**/*.py"]
+db_metadata_extractor_mcp = ["*.py", "reference/**/*.py"]

@@ -1,2 +1,2 @@
 [console_scripts]
-db-metadata-extractor-mcp = db_metadata_extractor.server:main
+db-metadata-extractor-mcp = db_metadata_extractor_mcp.server:main

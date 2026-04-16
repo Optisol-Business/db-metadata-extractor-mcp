@@ -44,6 +44,7 @@ htmlcov/
 # Documentation
 docs/
 *.md
+!README.md
 
 # Project specific
 outputs/

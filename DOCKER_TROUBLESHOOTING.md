@@ -257,7 +257,7 @@ docker push optisolbusiness/db-metadata-extractor-mcp:0.1.2
 docker run --rm -it optisolbusiness/db-metadata-extractor-mcp:0.1.2 /bin/bash
 
 # Inside container, try running the module
-python -m db_metadata_extractor.server --help
+python -m db_metadata_extractor_mcp.server --help
 
 # If it fails, check:
 # 1. Dockerfile has correct COPY command
@@ -267,7 +267,7 @@ python -m db_metadata_extractor.server --help
 # Example fix
 # Check these in Dockerfile:
 # COPY --chown=mcpuser:mcpuser src/ /app/src/
-# ENTRYPOINT ["python", "-m", "db_metadata_extractor.server"]
+# ENTRYPOINT ["python", "-m", "db_metadata_extractor_mcp.server"]
 ```
 
 ---
@@ -302,11 +302,11 @@ docker build --no-cache -t optisolbusiness/db-metadata-extractor-mcp:0.1.2 .
 docker inspect optisolbusiness/db-metadata-extractor-mcp:0.1.2 | grep -A 2 Entrypoint
 
 # It should be:
-# "Entrypoint": ["python", "-m", "db_metadata_extractor.server"]
+# "Entrypoint": ["python", "-m", "db_metadata_extractor_mcp.server"]
 
 # If it's trying to run a script, change the Dockerfile to use Python module instead
 # Fix Dockerfile:
-# ENTRYPOINT ["python", "-m", "db_metadata_extractor.server"]
+# ENTRYPOINT ["python", "-m", "db_metadata_extractor_mcp.server"]
 # NOT:
 # ENTRYPOINT ["./db-metadata-extractor-mcp"]
 ```
